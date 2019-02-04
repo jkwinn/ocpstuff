@@ -32,11 +32,17 @@ subscription-manager repos \
    --enable=rhel-7-fast-datapath-rpms \
    --enable=rhel-7-server-ansible-2.6-rpms \
    --enable=rh-gluster-3-client-for-rhel-7-server-rpms \
-   --enable=rhel-7-server-optional-rpms
-   
-#   --enable=rhel-server-rhscl-7-rpms \
+   --enable=rhel-7-server-optional-rpms \
+   --enable=rhel-server-rhscl-7-rpms
 
-yum -y install yum-utils
+yum -y install yum-utils @development rh-python36
+ 
+yum -y install rh-python36-numpy \
+ rh-python36-scipy \ 
+ rh-python36-python-tools \
+ rh-python36-python-six
+ 
+# exit
 ```
 ##### # open the firewall up
 ###### # you can get more strict with this if you want
@@ -94,9 +100,10 @@ cp -f /etc/docker/certs.d/$MY_REPO/$MY_REPO.cert /etc/pki/ca-trust/source/anchor
 ```
 ##### # setup the epel repo so we can get python36 package, then disable it
 ```
-rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-yum install -y python36 python36-pip
-yum-config-manager --disable epel
+# Figure out rhscl before removing this
+#rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+#yum install -y python36 python36-pip
+#yum-config-manager --disable epel
 ```
 ##### # make sure skopeo is installed
 ```
@@ -111,6 +118,7 @@ wget https://raw.githubusercontent.com/nnachefski/ocpstuff/master/images/mw_imag
 ```
 ##### # now copy the images to your repo (./import-images.py --help)
 ``` 
+scl enable rh-python36 bash
 for i in core_images.txt app_images.txt mw_images.txt; do
   ./import-images.py docker $SRC_REPO $MY_REPO -d -l $i
 done
