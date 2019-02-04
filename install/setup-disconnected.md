@@ -31,10 +31,12 @@ subscription-manager repos \
    --enable=rhel-7-server-ose-3.11-rpms \
    --enable=rhel-7-fast-datapath-rpms \
    --enable=rhel-7-server-ansible-2.6-rpms \
-   --enable=rh-gluster-3-client-for-rhel-7-server-rpms
+   --enable=rh-gluster-3-client-for-rhel-7-server-rpms \
+   --enable=rhel-7-server-optional-rpms
    
 #   --enable=rhel-server-rhscl-7-rpms \
-#   --enable=rhel-7-server-optional-rpms 
+
+yum -y install yum-utils
 ```
 ##### # open the firewall up
 ###### # you can get more strict with this if you want
