@@ -15,6 +15,7 @@ export OCP_VER=v3.11
 export POOLID=8a85f98260c27fc50160c323263339ff
 export RHN_ID=nnachefs@redhat.com
 export RHN_PWD=
+export STAGE_DIR=/var/deleteme #this will hold scripts and rpms before moved to /var/www/html
 ```
 ##### # or, if doing an internal puddle build
 ```
@@ -111,7 +112,8 @@ yum install -y skopeo
 ```
 ##### # get the import-images.py script and image lists (this script is a python3 wrapper for skopeo)
 ```
-cd ~ && wget https://raw.githubusercontent.com/nnachefski/ocpstuff/master/scripts/import-images.py && chmod +x import-images.py
+mkdir -p $STAGE_DIR && cd $STAGE_DIR
+wget https://raw.githubusercontent.com/nnachefski/ocpstuff/master/scripts/import-images.py && chmod +x import-images.py
 wget https://raw.githubusercontent.com/nnachefski/ocpstuff/master/images/core_images.txt
 wget https://raw.githubusercontent.com/nnachefski/ocpstuff/master/images/app_images.txt
 wget https://raw.githubusercontent.com/nnachefski/ocpstuff/master/images/mw_images.txt  
@@ -130,7 +132,7 @@ yum -y install httpd && systemctl enable httpd --now
 ```
 ##### # start the reposync
 ```
-cd ~ && mkdir repo && wget https://raw.githubusercontent.com/nnachefski/ocpstuff/master/scripts/sync_repos.sh && chmod +x sync_repos.sh
+cd $STAGE_DIR && mkdir repo && wget https://raw.githubusercontent.com/nnachefski/ocpstuff/master/scripts/sync_repos.sh && chmod +x sync_repos.sh
 ./sync_repos.sh
 ```
 ##### # move and fix repo dir selinux
